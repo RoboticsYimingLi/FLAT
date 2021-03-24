@@ -49,10 +49,10 @@
 <div class="container" id="main">
     <div class="row">
         <h1 class="col-md-12 text-center">
-            End-to-End Egospheric Spatial Memory </br>
-            <small>
-                ICLR 2021
-            </small>
+            Fooling LiDAR Perception via Adversarial Trajectory Perturbation </br>
+<!--            <small>-->
+<!--                ICLR 2021-->
+<!--            </small>-->
         </h1>
     </div>
 
@@ -60,27 +60,27 @@
         <div class="col-md-12 text-center">
             <ul class="list-inline">
                 <li>
-                    <a href="https://djl11.github.io/">
-                        Daniel Lenton
+                    <a href="https://scholar.google.com/citations?user=i_aajNoAAAAJ&hl=en">
+                        Yiming Li
                     </a><sup>1</sup>
                 </li>
                 <li>
-                    <a href="https://stepjam.github.io/">
-                        Stephen James
-                    </a><sup>1</sup>
+                    <a href="https://scholar.google.com/citations?hl=en&user=OTBgvCYAAAAJ">
+                        Congcong Wen
+                    </a><sup>1, 2</sup>
                 </li>
                 <li>
-                    <a href="http://www.ronnieclark.co.uk/">
-                        Ronald Clark
-                    </a><sup>2</sup>
+                    <a href="https://scholar.google.com/citations?user=dgN8vtwAAAAJ&hl=en">
+                        Felix Juefei-Xu
+                    </a><sup>3</sup>
                 </li>
                 <li>
-                    <a href="https://www.doc.ic.ac.uk/~ajd/">
-                        Andrew Davison
+                    <a href="https://scholar.google.com/citations?user=YeG8ZM0AAAAJ&hl=en">
+                        Chen Feng
                     </a><sup>1</sup>
                 </li>
             </ul>
-            <sup>1</sup>Dyson Robotics Lab, <sup>2</sup>Department of Computing</br>Imperial College London
+            <sup>1</sup>New York University, <sup>2</sup>University of Chinese Academy of Sciences, <sup>2</sup>Alibaba Group
         </div>
     </div>
 
@@ -89,21 +89,21 @@
 
     <div class="row">
         <div class="col-xs-4 col-sm-2 col-sm-offset-3 text-center">
-            <a href="https://arxiv.org/abs/2102.07764">
+            <a href="">
                 <image src="paper.png" height="50px"></image>
                 <br>
                 <h4><strong>Paper</strong></h4>
             </a>
         </div>
         <div class="col-xs-4 col-sm-2 text-center">
-            <a href="https://github.com/ivy-dl/memory">
+            <a href="">
                 <image src="ivy.png" height="50px"></image>
                 <br>
                 <h4><strong>Implementation</strong></h4>
             </a>
         </div>
         <div class="col-xs-4 col-sm-2 text-center">
-            <a href="https://github.com/djl11/ESM">
+            <a href="">
                 <image src="github.png" height="50px"></image>
                 <br>
                 <h4><strong>Experiments</strong></h4>
@@ -111,15 +111,40 @@
         </div>
     </div>
 
+
     <br>
     <br>
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item fa fa-4x wow fadeInLeft"
-                        src="https://www.youtube.com/embed/TvprqJHngTM" allowfullscreen></iframe>
-            </div>
+            <h3>
+                Abstract
+            </h3>
+            LiDAR point clouds collected from a moving vehicle are functions of its trajectories, because the sensor motion needs to be compensated to avoid distortions. When autonomous vehicles are sending LiDAR point clouds to deep networks for perception and planning, could the motion compensation consequently become a wide-open backdoor in those networks, due to both the adversarial vulnerability of deep learning and GPS-based vehicle trajectory estimation that is susceptible to wireless spoofing? We demonstrate such possibilities for the first time: instead of directly attacking point cloud coordinates which requires tampering with the raw LiDAR readings, only adversarial spoofing of a self-driving car's trajectory with small perturbations is enough to make safety-critical objects undetectable or detected with incorrect positions. Moreover, polynomial trajectory perturbation is developed to achieve a temporally-smooth and highly-imperceptible attack. Extensive experiments on 3D object detection have shown that such attacks not only lower the performance of the state-of-the-art detectors effectively, but also transfer to other detectors, raising a red flag for the community.
+            <br>
+            <br>
+            <br>
+            <br>
+            <image src="FLAT.png" width="100%" class="center"></image>
+        </div>
+    </div>
+
+
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3>
+                Motion Distortion in LiDAR
+            </h3>
+            LiDAR measurements are obtained along with the rotation of its beams, so the measurements in a full sweep are captured at different timestamps, introducing motion distortion which jeopardizes the vehicle perception. Autonomous systems generally utilize LiDAR's location and orientation obtained from the localization system to correct distortion. Most LiDAR-based datasets [2, 7] have finished synchronization before release. Hence, the performance of current 3D perception algorithms in the distorted point cloud remains unexplored. In this work, we recover the point cloud before motion correction through linear pose interpolatation and rigid body transformation.
+            <br>
+            <br>
+            <image src="Distortion.png" width="100%" class="center"></image>
+<!--            <video width="100%" autoplay loop controls muted>-->
+<!--                <source src="off_the_shelf.mp4" type="video/mp4"/>-->
+<!--            </video>-->
         </div>
     </div>
 
@@ -129,21 +154,13 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h3>
-                Overview
+                White Box Attack
             </h3>
-            Egospheric Spatial Memory (ESM) encodes the memory in an ego-sphere around the agent,
-            enabling expressive 3D representations.
-            ESM can be trained end-to-end via either imitation or reinforcement learning,
-            and improves both training efficiency and final performance against other memory baselines on
-            both drone and manipulator visuomotor control tasks.
+            Our white box model, PointRCNN [31], uses PointNet++ [27] as its backbone and includes two stages: stage-1 for proposal generation based on each foreground point, and stage-2 for proposal refinement in the canonical coordinate. Since PointRCNN uses raw point cloud as the input, the gradient can smoothly reach the point cloud, then arrive at vehicle trajectory. In this work, we individually attack the classification as well as regression branches in stage-1 and stage-2, with four attack targets in total.
             <br>
-            <br>
-            ESM is a parameter-free module, and relies on forward warp reprojections for updating the memory.
-            The egospheric memory at time t-1 is combined with the new observations at time t,
-            to produce the new egospheric memory at time t.
-            <br>
-            <br>
-            <image src="ESM_pipeline.png" width="100%" class="center"></image>
+            <image src="white1.png" width="100%" class="center"></image>
+            <image src="white2.png" width="100%" class="center"></image>
+            <image src="white3.png" width="100%" class="center"></image>
         </div>
     </div>
 
@@ -153,74 +170,35 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h3>
-                Off-the-Shelf Mapping
+                Black Box Attack
             </h3>
-            Assuming access to a stream of depth and color images, and access to camera pose estimates,
-            the ESM module can be used for off-the-shelf real-time egocentric mapping,
-            with color values projected into memory.
+            PointPillar [14] proposes a fast point cloud encoder using pseudo-image representation. It divides point cloud into bins and uses PointNet [26] to extract the feature for each pillar. Due to the non-differentiable preprocesssing stage, the gradient cannot reach the point cloud. Peiyun et al. [11] proposed to augment PointPillar with the visibility map, achieving better precision. In this work, we use PointPillar++ to denote PointPillar with visibility map in [11]. We use perturbation learned from the white box PointRCNN to attack black box PointPillar++, in order to examine the transferability of our attack pipeline.
             <br>
             <br>
-            <video width="100%" autoplay loop controls muted>
-                <source src="off_the_shelf.mp4" type="video/mp4"/>
-            </video>
         </div>
     </div>
 
-    <br>
-    <br>
-
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h3>
-                Neural Network Integration
-            </h3>
-            The real stength of ESM arises when training end-to-end as part of a wider neural network.
-            The ESM module can be combined with both pre-module convolutions and post-module convolutions, for solving a
-            variety of downstream tasks.
-            The pre-module convolutions enable learnt features to be stored in the module, optimized for any downstream
-            task.
-            The post-module convolutions can then use this stored representation to execute the task.
-            We refer to networks with both pre and post module convolutions as Egospheric Spatial Memory Networks
-            (ESMN).
-            For some tasks, the post-module convolutions are sufficient, with color values projected into the
-            memory.
-            We refer to these networks as ESMN-RGB.
-            <br>
-            <br>
-            We compare against other less structured memory baselines, such as long short term memory (LSTM),
-            and neural turing machines (NTM).
-            The baseline methods are given access to all the same information, including ground truth poses.
-            <br>
-            <br>
-            <image src="simplified_networks.png" width="100%" class="center"></image>
+        <div class="col-xs-4 col-sm-3 col-md-offset-1 text-center">
+            <image src="original/scene-0795.gif" height="350px"></image>
+        </div>
+        <div class="col-xs-4 col-sm-3 text-center">
+            <image src="original/scene-0796.gif" height="350px"></image>
+        </div>
+        <div class="col-xs-4 col-sm-3 text-center">
+            <image src="original/scene-0797.gif" height="350px"></image>
         </div>
     </div>
 
-    <br>
-    <br>
-
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h3>
-                Image to Action Learning
-            </h3>
-            We test ESM in a variety of image-to-action reacher tasks.
-            We test for 6DOF control of both drones and robot manipulators, using either onboard or freely moving
-            cameras,
-            with networks conditioned on target shape or target color, trained using either imitation learning or
-            reinforcement learning.
-            In all cases, we find that ESMN and ESMN-RGB outperform less structured memory baselines, such as long short
-            term memory, and neural turing machines.
-            <br>
-            <br>
-            The explicit geometry also enables seamless integration with other non-learnt control strategies, such as
-            local obstacle avoidance.
-            The egocentric geometry leads to more robust avoidance than is possible using individual depth frames.
-            <br>
-            <br>
-            <video width="100%" autoplay loop controls muted>
-                <source src="image_to_action.mp4" type="video/mp4"/>
-            </video>
+        <div class="col-xs-4 col-sm-3 col-md-offset-1 text-center">
+            <image src="original/scene-0795.gif" height="350px"></image>
+        </div>
+        <div class="col-xs-4 col-sm-3 text-center">
+            <image src="original/scene-0796.gif" height="350px"></image>
+        </div>
+        <div class="col-xs-4 col-sm-3 text-center">
+            <image src="original/scene-0797.gif" height="350px"></image>
         </div>
     </div>
 
@@ -230,17 +208,12 @@
         <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h3>
-                Object Segmentation
+                Polynomial Trajectory Perturbation
             </h3>
-            We also apply the module to object segmentation.
-            We find that both the pre-module and post-module convoltuions are required to achieve the best performance, with the ESMN architecture.
-            ESMN combines the benefits of both image level and map level inference,
-            outperforming baselines which either fuse monocular predictions (Mono) or make predictions directly from an RGB map (ESMN-RGB).
+            To achieve a temporally-smooth attack which is less perceptible, we implement a polynomial regression before the generation of perturbation and attack the polynomial coefficients instead of the trajectory itself. In this scenario, we only need to manipulate several key points to bend a polynomial-parameterized trajectory which can be easily achieved in reality, realizing a real-time and high-quality attack. Several qualitative examples of the polynomial trajectory perturbation are shown below.
             <br>
             <br>
-            <video width="100%" autoplay loop controls muted>
-                <source src="object_segmentation.mp4" type="video/mp4"/>
-            </video>
+            <image src="traj_poly.png" width="100%" class="center"></image>
         </div>
     </div>
 
@@ -254,11 +227,11 @@
             </h3>
             <div class="form-group col-md-10 col-md-offset-1">
                 <textarea id="bibtex" class="form-control" readonly>
-@misc{lenton2021endtoend,
-      title={End-to-End Egospheric Spatial Memory},
-      author={Daniel Lenton and Stephen James and Ronald Clark and Andrew J. Davison},
+@misc{Li2021flat,
+      title={Fooling LiDAR Perception via Adversarial Trajectory Perturbation},
+      author={Yiming Li and Congcong Wen and Felix Juefei-Xu and Chen Feng},
       year={2021},
-      eprint={2102.07764},
+      eprint={},
       archivePrefix={arXiv},
       primaryClass={cs.RO}
 }
